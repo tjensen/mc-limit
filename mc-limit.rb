@@ -3,15 +3,15 @@ require 'yaml'
 require 'dl'
 require 'sys/proctable'
 
-MINUTES = 30
+# The default number of minutes of game play to allow per day
+DEFAULT_MINUTES = Float(ENV['DEFAULT_MC_LIMIT']) || 30
 
+# The minimum number of remaining minutes needed to start the game
 MINIMUM_MINUTES = 1
 
 REMAINING_FILE = File.join( ENV['APPDATA'], 'mc-limit.yml' )
 
-JAVA = 'c:\Program Files (x86)\Java\jre6\bin\javaw.exe'
-
-COMMAND = "\"#{JAVA}\" -Xms512m -Xmx1024m -cp \"%APPDATA%\\.minecraft\\bin\\*\" -Djava.library.path=\"%APPDATA%\\.minecraft\\bin\\natives\" net.minecraft.client.Minecraft \"Monkey Brain\""
+COMMAND = 'javaw.exe -Xms512m -Xmx1024m -cp "%APPDATA%\.minecraft\bin\*" -Djava.library.path="%APPDATA%\.minecraft\bin\natives" net.minecraft.client.Minecraft'
 
 # http://rubyonwindows.blogspot.com/2007/06/displaying-messagebox-using-windows-api.html
 def message_box( title, body )
@@ -23,9 +23,9 @@ end
 
 def remaining_minutes
   yaml = YAML.load_file( REMAINING_FILE )
-  yaml[:date] == Date.today ? yaml[:remaining] : MINUTES
+  yaml[:date] == Date.today ? yaml[:remaining] : DEFAULT_MINUTES
 rescue
-  MINUTES
+  DEFAULT_MINUTES
 end
 
 def update_remaining_minutes( minutes )
@@ -40,6 +40,7 @@ def timeout_pid(pid, minutes)
     Sys::ProcTable.ps do |process|
       to_kill << process.pid if to_kill.include? process.ppid
     end
+    # Unfortunately, sending SIGTERM does not seem to work
     Process.kill( :KILL, *to_kill )
   end
   pid
@@ -47,7 +48,7 @@ end
 
 def validate_sufficient( time_limit )
   return if time_limit >= MINIMUM_MINUTES
-  raise message_box( 'Sorry, Kiddo!', 'No more Minecraft allowed today!' )
+  raise message_box( 'Sorry', 'No more Minecraft allowed today!' )
 end
 
 def run( command, time_limit )
@@ -63,7 +64,7 @@ if $0 == __FILE__
   finish = Time.now
 
   consumed = ( finish - start ) / 60
-  remaining = [ 0, MINUTES - consumed ].sort.last
+  remaining = [ 0, DEFAULT_MINUTES - consumed ].sort.last
   update_remaining_minutes( remaining )
 end
 
