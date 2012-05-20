@@ -35,7 +35,6 @@ a challenge for my kids.
 ## To-Do List
 
 * Make it easy to install as a gem.
-* Figure out how to tell Minecraft to terminate gracefully.
 * Add a "parent" UI for adjusting the current day's remaining play
   time.
 * Use a GUI toolkit (Shoes?) and be portable
