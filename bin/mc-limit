@@ -1,0 +1,14 @@
+#!/usr/bin/env ruby
+
+$0 = 'mc-limit'
+
+begin
+  require 'mc-limit'
+rescue LoadError
+  require 'rubygems'
+  require 'mc-limit'
+end
+
+MCLimit.launch
+
+# vim:ts=2:sw=2:et:ft=ruby

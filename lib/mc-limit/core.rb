@@ -1,8 +1,6 @@
 require 'date'
 require 'yaml'
-require 'dl'
 require 'sys/proctable'
-require_relative 'winfns'
 
 module MCLimit
   # The default number of minutes of game play to allow per day
@@ -53,19 +51,19 @@ module MCLimit
     validate_sufficient time_limit
     pid = timeout_pid( Process.spawn( command ), time_limit )
   end
-end
 
-if $0 == __FILE__
-  remaining = MCLimit.remaining_minutes
-  pid = MCLimit.run( MCLimit::COMMAND, remaining )
+  def self.launch
+    remaining = MCLimit.remaining_minutes
+    pid = MCLimit.run( MCLimit::COMMAND, remaining )
 
-  start = Time.now
-  Process.waitpid( pid, 0 )
-  finish = Time.now
+    start = Time.now
+    Process.waitpid( pid, 0 )
+    finish = Time.now
 
-  consumed = ( finish - start ) / 60
-  remaining = [ 0, remaining - consumed ].sort.last
-  MCLimit.update_remaining_minutes( remaining )
+    consumed = ( finish - start ) / 60
+    remaining = [ 0, remaining - consumed ].sort.last
+    MCLimit.update_remaining_minutes( remaining )
+  end
 end
 
 # vim:ts=2:sw=2:et

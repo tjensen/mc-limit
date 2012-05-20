@@ -13,7 +13,7 @@ a pre-determined amount of time.
 
 ## How to install it
 
-TBD
+TODO
 
 ## How to run it
 
@@ -22,8 +22,8 @@ Set the `DEFAULT_MC_LIMIT` variable to equal the default number of
 minutes of Minecraft play to allow per day.  If the variable is not
 set, the default time limit will be 30 minutes.
 
-Run "ruby \path\to\mc-limit.rb" to launch Minecraft.  I recommend
-creating a desktop shortcut to make it easier to run.
+Run "mc-limit" to launch Minecraft.  I recommend creating a desktop
+shortcut to make it easier to run.
 
 ## Security
 
@@ -34,7 +34,6 @@ a challenge for my kids.
 
 ## To-Do List
 
-* Make it easy to install as a gem.
 * Add a "parent" UI for adjusting the current day's remaining play
   time.
 * Use a GUI toolkit (Shoes?) and be portable

@@ -1,4 +1,4 @@
-source "http://rubygems.org"
+source 'https://rubygems.org'
 
-gem "sys-proctable"
-gem "win32-api"
+# Specify your gem's dependencies in mc-limit.gemspec
+gemspec

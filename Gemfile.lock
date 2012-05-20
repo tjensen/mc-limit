@@ -1,5 +1,12 @@
+PATH
+  remote: .
+  specs:
+    mc-limit (0.0.1)
+      sys-proctable
+      win32-api
+
 GEM
-  remote: http://rubygems.org/
+  remote: https://rubygems.org/
   specs:
     sys-proctable (0.9.1-x86-mingw32)
     win32-api (1.4.8-x86-mingw32)
@@ -8,5 +15,4 @@ PLATFORMS
   x86-mingw32
 
 DEPENDENCIES
-  sys-proctable
-  win32-api
+  mc-limit!
