@@ -27,7 +27,7 @@ module MCLimit
 
   def self.update_remaining_minutes( minutes )
     yaml = { :date => Date.today, :remaining => minutes }.to_yaml
-    File.write( REMAINING_FILE, yaml )
+    File.open( REMAINING_FILE, 'wt' ) { |f| f.write yaml }
   end
 
   def self.timeout_pid(pid, minutes)
