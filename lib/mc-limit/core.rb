@@ -3,8 +3,8 @@ require 'yaml'
 require 'sys/proctable'
 
 module MCLimit
-  # The default number of minutes of game play to allow per day
-  DEFAULT_MINUTES = Float(ENV['DEFAULT_MC_LIMIT'] || 30)
+  # The default number of minutes of game play to allow per day when env not set
+  DEFAULT_MINUTES = 30
 
   # The minimum number of remaining minutes needed to start the game
   MINIMUM_MINUTES = 1
@@ -18,11 +18,15 @@ module MCLimit
     exit 1
   end
 
-  def self.remaining_minutes
+  def self.default_minutes
+    Float( ENV['DEFAULT_MC_LIMIT'] || DEFAULT_MINUTES )
+  end
+
+  def self.remaining_minutes( date = Date.today )
     yaml = YAML.load_file( REMAINING_FILE )
-    ( yaml[:date] == Date.today ) ? yaml[:remaining] : DEFAULT_MINUTES
+    ( yaml[:date] == date ) ? Float(yaml[:remaining]) : default_minutes
   rescue
-    DEFAULT_MINUTES
+    default_minutes
   end
 
   def self.update_remaining_minutes( minutes )
