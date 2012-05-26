@@ -57,6 +57,14 @@ module MCLimit
     File.open( MCLimit.remaining_file, 'wt' ) { |f| f.write yaml }
   end
 
+  def self.stop_minecraft(pids)
+    if RUBY_PLATFORM =~ /mingw/
+      Win.close_process(pids, 'Minecraft')
+    else
+      pids.each { |pid| kill(:QUIT, pid) }
+    end
+  end
+
   def self.timeout_pid(pid, minutes)
     Thread.new do
       sleep minutes * 60
@@ -64,7 +72,7 @@ module MCLimit
       Sys::ProcTable.ps do |process|
         pids << process.pid if pids.include? process.ppid
       end
-      Win.close_process(pids, 'Minecraft')
+      MCLimit.stop_minecraft(pids)
     end
     pid
   end
