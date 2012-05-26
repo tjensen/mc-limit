@@ -1,3 +1,4 @@
+require 'mc-limit/admin'
 require 'mc-limit/core'
 require 'mc-limit/gui'
 require 'mc-limit/version'

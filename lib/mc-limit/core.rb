@@ -22,6 +22,10 @@ module MCLimit
     Float( ENV['DEFAULT_MC_LIMIT'] || DEFAULT_MINUTES )
   end
 
+  def self.admin_password
+    ENV['MC_LIMIT_ADMIN_PASSWORD']
+  end
+
   def self.remaining_minutes( date = Date.today )
     yaml = YAML.load_file( REMAINING_FILE )
     ( yaml[:date] == date ) ? Float(yaml[:remaining]) : default_minutes
