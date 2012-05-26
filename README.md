@@ -31,8 +31,8 @@ Set the `MC_LIMIT_FILE` variable to the full pathname of the file
 that is used to store the remaining play time between runs.  If the
 variable is not set, the default file is:
 
-- Windows: %APPDATA%\.mc-limit\remaining.yml
-- Others: $HOME/.mc-limit/remaining.yml
+- Windows: `%APPDATA%\.mc-limit\remaining.yml`
+- Others: `$HOME/.mc-limit/remaining.yml`
 
 ### Admin password
 
@@ -64,9 +64,7 @@ a challenge for my kids.
 
 ## To-Do List
 
-* Add a "parent" UI for adjusting the current day's remaining play
-  time.
-* Use a GUI toolkit (Shoes?) and be portable
+* Make it portable
 * Display a timer while Minecraft is running that shows how much play
   time is left.
 * Improve security.
