@@ -15,15 +15,45 @@ a pre-determined amount of time.
 
 TODO
 
-## How to run it
+## How to configure it
 
 The utility uses environment variables for its configuration.
+
+### Default time limit
+
 Set the `DEFAULT_MC_LIMIT` variable to equal the default number of
 minutes of Minecraft play to allow per day.  If the variable is not
 set, the default time limit will be 30 minutes.
 
+### Remaining time file
+
+Set the `MC_LIMIT_FILE` variable to the full pathname of the file
+that is used to store the remaining play time between runs.  If the
+variable is not set, the default file is:
+
+- Windows: %APPDATA%\.mc-limit\remaining.yml
+- Others: $HOME/.mc-limit/remaining.yml
+
+### Admin password
+
+Set the `MC_LIMIT_ADMIN_PASSWORD` variable to be the plain text
+password required in order to run the administration tool.  If this
+variable is not set, the administration tool will not run.
+
+### Game command
+
+Set the `MC_LIMIT_COMMAND` variable to the complete command line
+used to launch Minecraft.
+
+## How to run it
+
 Run "mc-limit" to launch Minecraft.  I recommend creating a desktop
 shortcut to make it easier to run.
+
+### Administration tool
+
+Run "mc-limit-admin" to launch the administration tool.  This tool
+can be used to add or subtract minutes from today's limit.
 
 ## Security
 
