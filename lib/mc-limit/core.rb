@@ -1,5 +1,6 @@
 require 'date'
 require 'yaml'
+require 'fileutils'
 require 'sys/proctable'
 
 module MCLimit
@@ -9,25 +10,42 @@ module MCLimit
   # The minimum number of remaining minutes needed to start the game
   MINIMUM_MINUTES = 1
 
-  REMAINING_FILE = File.join( ENV['APPDATA'], 'mc-limit.yml' )
+  REMAINING_FILE = 'remaining.yml'
 
-  COMMAND = 'javaw.exe -Xms512m -Xmx1024m -cp "%APPDATA%\.minecraft\bin\*" -Djava.library.path="%APPDATA%\.minecraft\bin\natives" net.minecraft.client.Minecraft'
+  GAME_COMMAND = 'javaw.exe -Xms512m -Xmx1024m -cp "%APPDATA%\.minecraft\bin\*" -Djava.library.path="%APPDATA%\.minecraft\bin\natives" net.minecraft.client.Minecraft'
 
   def self.disappoint( title, body )
     GUI.error( body, title )
     exit 1
   end
 
-  def self.default_minutes
-    Float( ENV['DEFAULT_MC_LIMIT'] || DEFAULT_MINUTES )
+  def self.game_command
+    ENV['MC_LIMIT_COMMAND'] || GAME_COMMAND
+  end
+
+  def self.remaining_file
+    if ENV['MC_LIMIT_FILE'].nil?
+      if RUBY_PLATFORM =~ /mingw/
+        File.join( ENV['APPDATA'], '.mc-limit', REMAINING_FILE )
+      else
+        File.join( ENV['HOME'], '.mc-limit', REMAINING_FILE )
+      end
+    else
+      ENV['MC_LIMIT_FILE']
+    end
   end
 
   def self.admin_password
     ENV['MC_LIMIT_ADMIN_PASSWORD']
   end
 
+  def self.default_minutes
+    Float( ENV['DEFAULT_MC_LIMIT'] || DEFAULT_MINUTES )
+  end
+
   def self.remaining_minutes( date = Date.today )
-    yaml = YAML.load_file( REMAINING_FILE )
+    FileUtils.mkdir_p( File.dirname( MCLimit.remaining_file ) )
+    yaml = YAML.load_file( MCLimit.remaining_file )
     ( yaml[:date] == date ) ? Float(yaml[:remaining]) : default_minutes
   rescue
     default_minutes
@@ -35,7 +53,8 @@ module MCLimit
 
   def self.update_remaining_minutes( minutes )
     yaml = { :date => Date.today, :remaining => minutes }.to_yaml
-    File.open( REMAINING_FILE, 'wt' ) { |f| f.write yaml }
+    FileUtils.mkdir_p( File.dirname( MCLimit.remaining_file ) )
+    File.open( MCLimit.remaining_file, 'wt' ) { |f| f.write yaml }
   end
 
   def self.timeout_pid(pid, minutes)
@@ -63,7 +82,7 @@ module MCLimit
   def self.launch
     GUI.new.main_loop do
       remaining = MCLimit.remaining_minutes
-      pid = MCLimit.run( MCLimit::COMMAND, remaining )
+      pid = MCLimit.run( MCLimit.game_command, remaining )
 
       start = Time.now
       Process.waitpid( pid, 0 )
