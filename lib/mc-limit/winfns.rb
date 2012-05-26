@@ -2,19 +2,12 @@ require 'win32/api'
 
 module MCLimit
   module Win
-    WM_DESTROY = 0x2
     WM_CLOSE = 0x10
-    WM_QUIT = 0x12
 
-    MessageBox = Win32::API.new('MessageBox', 'LSSI', 'I', 'user32')
     SendMessage = Win32::API.new('SendMessage', 'LLLL', 'I', 'user32')
     EnumWindows = Win32::API.new('EnumWindows', 'KP', 'L', 'user32')
     GetWindowText = Win32::API.new('GetWindowText', 'LPI', 'I', 'user32')
     GetWindowThreadProcessId = Win32::API.new('GetWindowThreadProcessId', 'LP', 'L', 'user32')
-
-    def self.message_box(title, body)
-      MessageBox.call(0, body, title, 0)
-    end
 
     def self.window_for_pid(pid, text)
       result = nil

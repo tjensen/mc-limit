@@ -6,7 +6,7 @@ Gem::Specification.new do |gem|
   gem.email         = ["tim.l.jensen@gmail.com"]
   gem.description   = %q{Minecraft Limiter (mc-limit) launches Minecraft in offline mode and automatically terminates the game after it has been played for a pre-determined amount of time.}
   gem.summary       = %q{Limit the amount of time Minecraft can be played per day}
-  gem.homepage      = ""
+  gem.homepage      = "https://github.com/tjensen/mc-limit"
 
   gem.files         = `git ls-files`.split($\)
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
@@ -20,4 +20,5 @@ Gem::Specification.new do |gem|
 
   gem.add_dependency('sys-proctable')
   gem.add_dependency('win32-api')
+  gem.add_dependency('wxruby-ruby19')
 end

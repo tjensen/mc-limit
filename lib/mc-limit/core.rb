@@ -14,7 +14,7 @@ module MCLimit
   COMMAND = 'javaw.exe -Xms512m -Xmx1024m -cp "%APPDATA%\.minecraft\bin\*" -Djava.library.path="%APPDATA%\.minecraft\bin\natives" net.minecraft.client.Minecraft'
 
   def self.disappoint( title, body )
-    Win.message_box( title, body )
+    GUI.error( body, title )
     exit 1
   end
 
@@ -57,16 +57,18 @@ module MCLimit
   end
 
   def self.launch
-    remaining = MCLimit.remaining_minutes
-    pid = MCLimit.run( MCLimit::COMMAND, remaining )
+    GUI.new.main_loop do
+      remaining = MCLimit.remaining_minutes
+      pid = MCLimit.run( MCLimit::COMMAND, remaining )
 
-    start = Time.now
-    Process.waitpid( pid, 0 )
-    finish = Time.now
+      start = Time.now
+      Process.waitpid( pid, 0 )
+      finish = Time.now
 
-    consumed = ( finish - start ) / 60
-    remaining = [ 0, remaining - consumed ].sort.last
-    MCLimit.update_remaining_minutes( remaining )
+      consumed = ( finish - start ) / 60
+      remaining = [ 0, remaining - consumed ].sort.last
+      MCLimit.update_remaining_minutes( remaining )
+    end
   end
 end
 

@@ -1,4 +1,5 @@
 require 'mc-limit/core'
+require 'mc-limit/gui'
 require 'mc-limit/version'
 require 'mc-limit/winfns'
 

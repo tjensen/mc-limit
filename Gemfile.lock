@@ -4,12 +4,14 @@ PATH
     mc-limit (0.0.1-x86-mingw32)
       sys-proctable
       win32-api
+      wxruby-ruby19
 
 GEM
   remote: https://rubygems.org/
   specs:
     sys-proctable (0.9.1-x86-mingw32)
     win32-api (1.4.8-x86-mingw32)
+    wxruby-ruby19 (2.0.1-x86-mingw32)
 
 PLATFORMS
   x86-mingw32
