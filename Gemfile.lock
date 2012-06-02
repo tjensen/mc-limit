@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    mc-limit (0.0.1-x86-mingw32)
+    mc-limit (1.1.0-x86-mingw32)
       sys-proctable
       win32-api
       wxruby-ruby19

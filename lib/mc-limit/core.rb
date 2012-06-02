@@ -12,7 +12,7 @@ module MCLimit
 
   REMAINING_FILE = 'remaining.yml'
 
-  GAME_COMMAND = 'javaw.exe -Xms512m -Xmx1024m -cp "%APPDATA%\.minecraft\bin\*" -Djava.library.path="%APPDATA%\.minecraft\bin\natives" net.minecraft.client.Minecraft'
+  GAME_COMMAND = %{javaw.exe -Xms512m -Xmx1024m -cp "%APPDATA%\\.minecraft\\bin\\*" -Djava.library.path="%APPDATA%\\.minecraft\\bin\\natives" net.minecraft.client.Minecraft "#{Etc.getlogin}"}
 
   def self.disappoint( title, body )
     GUI.error( body, title )
