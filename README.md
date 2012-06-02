@@ -13,7 +13,7 @@ a pre-determined amount of time.
 
 ## How to install it
 
-TODO
+Run `gem install mc-limit`.
 
 ## How to configure it
 
